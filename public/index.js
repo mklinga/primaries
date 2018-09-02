@@ -13,13 +13,19 @@ const validateInput = (input = "") => {
 
   const hasInvalidCharacters = input.match(/[^0-9,]/);
   if (hasInvalidCharacters) {
-    return "Invalid characters found in the input, only natural numbers and comma are allowed";
+    return "Only natural numbers and comma are allowed";
   }
 
   return null;
 };
 
 const hasMultipleNumbers = input => input.includes(",");
+
+const resetResult = () => {
+  $sumSpan.innerHTML = "";
+  $isPrimeSpan.innerHTML = "";
+  $isPrimeSpan.classList.remove("isPrime");
+};
 
 const showPrettyResult = value => response => {
   const { isPrime, sum } = response;
@@ -39,21 +45,30 @@ const fetchResult = (route, value) => {
   $isPrimeSpan.innerHTML = "Loading ...";
   fetch(`${route}/${value}`)
     .then(res => res.json())
-    .then(showPrettyResult(value));
+    .then(showPrettyResult(value))
+    .catch(e => console.error("Fetching from api failed", e));
 };
 
-const onEnterPress = fn => event => event.keyCode === 13 && fn(event);
+const onEnterPress = fn => event => {
+  if (event.key === "Enter" || event.keyCode === 13 || event.which === 13) {
+    fn(event);
+  }
+};
 
 const onGoButton = () => {
-  const trimmedInput = trimInput($input.value);
+  resetResult();
 
+  const trimmedInput = trimInput($input.value);
   const validationIssues = validateInput(trimmedInput);
+
   if (validationIssues) {
+    $validationSpan.classList.remove("hidden");
     $validationSpan.innerHTML = validationIssues;
     return;
-  } else {
-    $validationSpan.innerHTML = "";
   }
+
+  $validationSpan.classList.add("hidden");
+  $validationSpan.innerHTML = "";
 
   const route = hasMultipleNumbers(trimmedInput)
     ? "/api/checkSum"

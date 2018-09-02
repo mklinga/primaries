@@ -28,8 +28,8 @@ input {
 
 span.validationError {
   display: block;
-  color: #aa3333;
-  padding: 10px;
+  color: #cc0000;
+  padding: 25px;
 }
 
 button {
@@ -42,12 +42,20 @@ button:hover {
   background: #f0f0f0;
 }
 
+#resultBox {
+  margin: 25px;
+}
+
 span#isPrimeSpan {
   font-size: 24px;
   display: block;
-  margin: 20px;
+  margin: 5px;
 }
 
 span#isPrimeSpan.isPrime:before {
   content: "🎉 ";
+}
+
+.hidden {
+  display: none !important;
 }
