@@ -4,7 +4,7 @@ const $validationSpan = document.querySelector("span.validationError");
 const $sumSpan = document.querySelector("span#sumSpan");
 const $isPrimeSpan = document.querySelector("span#isPrimeSpan");
 
-const trimInput = input => input.replace(/\s/, "");
+const trimInput = input => input.replace(/\s/g, "");
 
 const validateInput = (input = "") => {
   if (!input) {
